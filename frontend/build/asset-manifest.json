@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7b44efca.css",
+    "main.js": "/static/js/main.d7f33141.js",
+    "static/media/streetlight.pdf": "/static/media/streetlight.c8829bb791830dd3448c.pdf",
+    "static/media/schoolonwheels.pdf": "/static/media/schoolonwheels.5037b19733ec6c954f3a.pdf",
+    "static/media/gal3.jpeg": "/static/media/gal3.6967c5eb8f3dd8564161.jpeg",
+    "static/media/schoolwheels.webp": "/static/media/schoolwheels.26434307655cbd2e6ab7.webp",
+    "static/media/schoolwheels2.webp": "/static/media/schoolwheels2.836a223d3498085af0cb.webp",
+    "static/media/gal4.jpeg": "/static/media/gal4.33cbc649c81fd0e65190.jpeg",
+    "static/media/streetlight.webp": "/static/media/streetlight.40fe82c005d23f5d7243.webp",
+    "static/media/hero.webp": "/static/media/hero.9511aa4b7d72335d01b8.webp",
+    "static/media/about.webp": "/static/media/about.1116d559bf5d9fcfc3d7.webp",
+    "static/media/streetlight2.webp": "/static/media/streetlight2.b13678507b943ca1764a.webp",
+    "static/media/gal2.jpeg": "/static/media/gal2.20ad228e883248ed1629.jpeg",
+    "static/media/gal1.jpeg": "/static/media/gal1.c3762efd31fc0e69a473.jpeg",
+    "static/media/logo.png": "/static/media/logo.5ac6dab014ce1001bc78.png",
+    "index.html": "/index.html",
+    "main.7b44efca.css.map": "/static/css/main.7b44efca.css.map",
+    "main.d7f33141.js.map": "/static/js/main.d7f33141.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7b44efca.css",
+    "static/js/main.d7f33141.js"
+  ]
+}
