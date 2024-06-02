@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-lmhdqjqytslv@==^klamd!tr8ixm=jln#(#uew#(ixm72zhnz5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.penciltruck.com','*']
 
 
 # Application definition
