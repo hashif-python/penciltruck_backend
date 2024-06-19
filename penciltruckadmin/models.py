@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Banner(models.Model):
     title = models.CharField(max_length=100)
@@ -29,6 +30,8 @@ class Gallery(models.Model):
     image2 = models.ImageField(upload_to='gallery/', blank=True, null=True)
     image3 = models.ImageField(upload_to='gallery/', blank=True, null=True)
     image4 = models.ImageField(upload_to='gallery/', blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now())
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title

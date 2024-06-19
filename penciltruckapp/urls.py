@@ -5,7 +5,8 @@ from .views import *
 
 
 urlpatterns = [
-    path('banners', Banners.as_view()),
+    path('gallery', GalleryData.as_view()),
+    
     
     
 ]

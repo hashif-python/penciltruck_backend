@@ -1,0 +1,361 @@
+{% extends 'penciltruckadmin/base.html' %}
+
+{% block page_title %}
+<li class="nav-item">
+  <a class="nav-link collapsed" href="{% url 'admindashboard' %}">
+    <i class="bi bi-grid"></i>
+    <span>Dashboard</span>
+  </a>
+</li>
+<!-- End Dashboard Nav -->
+
+<li class="nav-item">
+  <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="{% url 'admingallery' %}">
+    <i class="bi bi-images"></i><span>Gallery</span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Gallery</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'admindashboard' %}">Home</a>
+        </li>
+        <li class="breadcrumb-item">Gallery</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">Gallery Image With Details</h5>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewGalleryModal">Add New</button>
+            </div>
+
+            <!-- Table with stripped rows -->
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Added On</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for gallery in gallery_data %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ gallery.title }}</td>
+                  <td>{{ gallery.created_at|date }}</td>
+                  <td>{{ gallery.active }}</td>
+                  <td>
+                    <button class="btn btn-warning btn-sm edit-gallery" data-bs-toggle="modal" data-bs-target="#editGalleryModal"
+                            data-id="{{ gallery.id }}" data-title="{{ gallery.title }}" data-status="{{ gallery.active }}" data-description="{{ gallery.description }}"
+                            {% if gallery.image1 %} data-image1="{{ gallery.image1.url }}" {% endif %}
+                            {% if gallery.image2 %} data-image2="{{ gallery.image2.url }}" {% endif %}
+                            {% if gallery.image3 %} data-image3="{{ gallery.image3.url }}" {% endif %}
+                            {% if gallery.image4 %} data-image4="{{ gallery.image4.url }}" {% endif %}>
+                      Edit
+                    </button>
+                    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                       data-id="{{ gallery.id }}">Delete</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Add New Gallery Modal -->
+<div class="modal fade" id="addNewGalleryModal" tabindex="-1" aria-labelledby="addNewGalleryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addNewGalleryModalLabel">Add New Gallery Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addNewGalleryForm" method="POST" action="{% url 'add_new_gallery' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="addNewTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="addNewTitle" name="title" required />
+          </div>
+          <div class="mb-3">
+            <label for="addDescription" class="form-label">Description</label>
+            <input type="text" class="form-control" id="addDescription" name="description" required />
+          </div>
+
+          <!-- Image 1 -->
+          <div class="mb-3">
+            <label for="addNewImage1" class="form-label">Image 1</label>
+            <div class="d-flex align-items-center">
+              <input type="file" class="form-control" id="addNewImage1" name="image1" required />
+            </div>
+          </div>
+
+          <!-- Image 2 -->
+          <div class="mb-3">
+            <label for="addNewImage2" class="form-label">Image 2</label>
+            <div class="d-flex align-items-center">
+              <input type="file" class="form-control" id="addNewImage2" name="image2" />
+            </div>
+          </div>
+
+          <!-- Image 3 -->
+          <div class="mb-3">
+            <label for="addNewImage3" class="form-label">Image 3</label>
+            <div class="d-flex align-items-center">
+              <input type="file" class="form-control" id="addNewImage3" name="image3" />
+            </div>
+          </div>
+
+          <!-- Image 4 -->
+          <div class="mb-3">
+            <label for="addNewImage4" class="form-label">Image 4</label>
+            <div class="d-flex align-items-center">
+              <input type="file" class="form-control" id="addNewImage4" name="image4" />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Gallery Modal -->
+<div class="modal fade" id="editGalleryModal" tabindex="-1" aria-labelledby="editGalleryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editGalleryModalLabel">Edit Gallery Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editGalleryForm" method="POST" action="{% url 'edit_gallery' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" id="editGalleryId" name="id" />
+          <div class="mb-3">
+            <label for="editTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="editTitle" name="title" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editDescription" class="form-label">Description</label>
+            <input type="text" class="form-control" id="editDescription" name="description" required />
+          </div>
+          <div style="display:none" class="mb-3">
+            <label for="editStatus" class="form-label">Status</label>
+            <input type="text" class="form-control" id="editStatus" name="status" required />
+          </div>
+
+          <!-- Image 1 -->
+          <div class="mb-3">
+            
+            
+            <img id="currentImage1" src="" alt="Current Image 1" class="img-thumbnail mt-2" style="display: none;" />
+            <div class="d-flex align-items-center">
+              <input  style="display: none;"  type="file" class="form-control" id="editImage1" name="image1" />
+              <button style="width:100%;display: none;" type="button" id="img1button" class="btn btn-primary" data-input-id="editImage1">Change</button>
+              <button id="deleteimageButton1" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage1" data-image-id="currentImage1">Delete</button>      
+              <input style="display: none;" id="deleteImage1" name="delete_image1" value="false" />
+            </div>
+          </div>
+
+          <!-- Image 2 -->
+          <div class="mb-3">
+           
+            
+            <img id="currentImage2" src="" alt="Current Image 2" class="img-thumbnail mt-2" style="display: none;" />
+            <div class="d-flex align-items-center">
+              <input style="display: none;" type="file" class="form-control" id="editImage2" name="image2" />
+              <button style="width:100%;display: none;" type="button" id="img2button" class="btn btn-primary" data-input-id="editImage2">Change</button>
+              <button id="deleteimageButton2" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage2" data-image-id="currentImage3">Delete</button>
+              <input style="display: none;" id="deleteImage2" name="delete_image2" value="false" />
+            </div>
+          </div>
+
+          <!-- Image 3 -->
+          <div class="mb-3">
+           
+            
+            <img id="currentImage3" src="" alt="Current Image 3" class="img-thumbnail mt-2" style="display: none;" />
+            <div class="d-flex align-items-center">
+              <input style="display: none;" type="file" class="form-control" id="editImage3" name="image3" />
+              <button style="width:100%;display: none;" type="button" id="img3button" class="btn btn-primary" data-input-id="editImage3">Change</button>
+              <button id="deleteimageButton3" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage3" data-image-id="currentImage3">Delete</button>
+              <input style="display: none;" id="deleteImage3" name="delete_image3" value="false" />
+            </div>
+          </div>
+
+          <!-- Image 4 -->
+          <div class="mb-3">
+           
+           
+            <img id="currentImage4" src="" alt="Current Image 4" class="img-thumbnail mt-2" style="display: none;" />
+            <div class="d-flex align-items-center">
+              <input style="display: none;" type="file" class="form-control" id="editImage4" name="image4" />
+              <button style="width:100%;display: none;" type="button" class="btn btn-primary" id="img4button" data-input-id="editImage4">Change</button>
+              <button id="deleteimageButton4" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage4" data-image-id="currentImage4">Delete</button>
+              <input style="display: none;" id="deleteImage4" name="delete_image4" value="false" />
+           
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this gallery image?
+        <form id="deleteGalleryForm" method="POST" action="{% url 'delete_gallery' %}">
+          {% csrf_token %}
+          <input type="hidden" id="deleteGalleryId" name="id" />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" form="deleteGalleryForm" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const editGalleryModal = document.getElementById('editGalleryModal');
+  const editGalleryForm = document.getElementById('editGalleryForm');
+  const deleteModal = document.getElementById('deleteModal');
+  const deleteGalleryForm = document.getElementById('deleteGalleryForm');
+
+  // Edit Gallery Button Click
+  document.querySelectorAll('.edit-gallery').forEach(button => {
+    button.addEventListener('click', function () {
+      const galleryId = this.getAttribute('data-id');
+      const galleryTitle = this.getAttribute('data-title');
+      const galleryStatus = this.getAttribute('data-status');
+      const galleryDescription = this.getAttribute('data-description');
+      const galleryImage1 = this.getAttribute('data-image1');
+      const galleryImage2 = this.getAttribute('data-image2');
+      const galleryImage3 = this.getAttribute('data-image3');
+      const galleryImage4 = this.getAttribute('data-image4');
+
+      document.getElementById('editGalleryId').value = galleryId;
+      document.getElementById('editTitle').value = galleryTitle;
+      document.getElementById('editStatus').value = galleryStatus;
+      document.getElementById('editDescription').value = galleryDescription;
+
+      // Set existing image URLs as placeholders or preview images
+      if (galleryImage1) {
+        document.getElementById('currentImage1').src = galleryImage1;
+        document.getElementById('currentImage1').style.display = 'block';
+        document.getElementById('img1button').style.display = 'block';
+        document.getElementById('deleteimageButton1').style.display = 'block';
+      } else {
+        document.getElementById('currentImage1').style.display = 'none';
+        document.getElementById('img1button').style.display = 'none';
+        document.getElementById('deleteimageButton1').style.display = 'none';
+
+      }
+
+      if (galleryImage2) {
+        document.getElementById('currentImage2').src = galleryImage2;
+        document.getElementById('currentImage2').style.display = 'block';
+        document.getElementById('img2button').style.display = 'block';
+        document.getElementById('deleteimageButton2').style.display = 'block';
+      } else {
+        document.getElementById('currentImage2').style.display = 'none';
+        document.getElementById('img2button').style.display = 'none';
+        document.getElementById('editImage2').style.display = 'block';
+        document.getElementById('deleteimageButton2').style.display = 'none';
+      }
+
+      if (galleryImage3) {
+        document.getElementById('currentImage3').src = galleryImage3;
+        document.getElementById('currentImage3').style.display = 'block';
+        document.getElementById('img3button').style.display = 'block';
+        document.getElementById('deleteimageButton3').style.display = 'block';
+      } else {
+        document.getElementById('currentImage3').style.display = 'none';
+        document.getElementById('img3button').style.display = 'none';
+        document.getElementById('editImage3').style.display = 'block';
+        document.getElementById('deleteimageButton3').style.display = 'none';
+      }
+
+      if (galleryImage4) {
+        document.getElementById('currentImage4').src = galleryImage4;
+        document.getElementById('currentImage4').style.display = 'block';
+        document.getElementById('img4button').style.display = 'block';
+        document.getElementById('deleteimageButton4').style.display = 'block';
+      } else {
+        document.getElementById('currentImage4').style.display = 'none';
+        document.getElementById('img4button').style.display = 'none';
+        document.getElementById('editImage4').style.display = 'block';
+        document.getElementById('deleteimageButton4').style.display = 'none';
+      }
+    });
+  });
+
+  // Change Image Button Click
+  document.querySelectorAll('.change-image').forEach(button => {
+    button.addEventListener('click', function () {
+      const inputId = this.getAttribute('data-input-id');
+      document.getElementById(inputId).click();
+    });
+  });
+
+  // Delete Gallery Button Click
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const galleryId = button.getAttribute('data-id');
+    document.getElementById('deleteGalleryId').value = galleryId;
+  });
+});
+
+document.querySelectorAll('.delete-image').forEach(button => {
+  button.addEventListener('click', function () {
+    const deleteId = this.getAttribute('data-delete-id');
+    const imageId = this.getAttribute('data-image-id');
+    document.getElementById(deleteId).value = 'true';
+    document.getElementById(imageId).style.display = 'none';
+  });
+});
+</script>
+
+{% endblock %}
