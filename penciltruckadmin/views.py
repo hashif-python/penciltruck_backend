@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from .decorators import *
 from . models import *
-from .forms import GalleryForm
+from .forms import GalleryForm, VolunteerForm
 from django.urls import reverse  # Import reverse here
 
 
@@ -86,3 +86,53 @@ def delete_gallery(request):
         messages.success(request, 'Gallery image deleted successfully!')
         return redirect(reverse('admingallery'))
     return render(request, 'penciltruckadmin/gallery.html', {'gallery': gallery})
+
+
+
+
+def volunteer_requests(request):
+    requests = VolunteerRequest.objects.all()
+    return render(request, 'penciltruckadmin/volunteer_requests.html', {'requests': requests})
+
+def update_volunteer_request_status(request, pk):
+    volunteer_request = get_object_or_404(VolunteerRequest, pk=pk)
+    status = request.GET.get('status')
+    
+    if status == 'Accepted':
+        # Insert details into Volunteer model
+        Volunteer.objects.create(
+            name=volunteer_request.name,
+            role='Volunteer',  # Assuming role is fixed as 'Volunteer', change if needed
+            email=volunteer_request.email,
+            phone=volunteer_request.phone,
+            bio=volunteer_request.message,  # Assuming the message field can be used as bio
+        )
+        volunteer_request.status = status
+        volunteer_request.save()
+        messages.success(request, 'Volunteer request has been accepted and details added.')
+    elif status == 'Rejected':
+        volunteer_request.status = status
+        volunteer_request.save()
+        messages.success(request, 'Volunteer request has been rejected.')
+    else:
+        messages.error(request, 'Invalid status.')
+
+    return redirect('volunteer_requests')
+
+
+def volunteers(request):
+    volunteer_list = Volunteer.objects.all()
+    return render(request, 'penciltruckadmin/volunteers.html', {'volunteers': volunteer_list})
+
+
+def edit_volunteer(request, pk):
+    volunteer = get_object_or_404(Volunteer, pk=pk)
+    if request.method == "POST":
+        form = VolunteerForm(request.POST, request.FILES, instance=volunteer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Volunteer details updated successfully!')
+            return redirect('volunteers')
+    else:
+        form = VolunteerForm(instance=volunteer)
+    return render(request, 'penciltruckadmin/edit_volunteer.html', {'form': form, 'volunteer': volunteer})

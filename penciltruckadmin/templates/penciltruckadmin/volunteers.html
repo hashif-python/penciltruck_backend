@@ -1,0 +1,173 @@
+{% extends 'penciltruckadmin/base.html' %}
+
+{% block page_title %}
+<li class="nav-item">
+    <a class="nav-link collapsed" href="{%url 'admindashboard'%}">
+      <i class="bi bi-grid"></i>
+      <span>Dashboard</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link collapsed"  href="{%url 'admingallery'%}">
+      <i class="bi bi-images"></i><span>Gallery</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link collapsed"  href="{% url  'volunteer_requests' %}">
+      <i class="bi bi-images"></i><span>Volunteer Request</span>
+    </a>
+  </li>
+<li class="nav-item">
+  <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="{% url 'volunteers' %}">
+    <i class="bi bi-people-fill"></i><span>Volunteers</span>
+  </a>
+</li>
+{% endblock %}
+
+
+{% block content %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Volunteers</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admindashboard' %}">Home</a></li>
+        <li class="breadcrumb-item">Volunteers</li>
+      </ol>
+    </nav>
+  </div>
+  <!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Volunteers</h5>
+
+            <!-- Table with stripped rows -->
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Bio</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for volunteer in volunteers %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ volunteer.name }}</td>
+                  <td>{{ volunteer.role }}</td>
+                  <td>{{ volunteer.bio }}</td>
+                  <td>{{ volunteer.email }}</td>
+                  <td>{{ volunteer.phone }}</td>
+                  <td>
+                    {% if volunteer.image %}
+                    <img src="{{ volunteer.image.url }}" alt="{{ volunteer.name }}" class="img-thumbnail" style="width: 50px; height: 50px;">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                  </td>
+                  <td>
+                    <button class="btn btn-warning btn-sm edit-volunteer" data-bs-toggle="modal" data-bs-target="#editVolunteerModal" data-id="{{ volunteer.id }}" data-name="{{ volunteer.name }}" data-role="{{ volunteer.role }}" data-bio="{{ volunteer.bio }}" data-email="{{ volunteer.email }}" data-phone="{{ volunteer.phone }}" {% if volunteer.image %}data-image="{{ volunteer.image.url }}"{% endif %}>Edit</button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Edit Volunteer Modal -->
+<div class="modal fade" id="editVolunteerModal" tabindex="-1" aria-labelledby="editVolunteerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editVolunteerModalLabel">Edit Volunteer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editVolunteerForm" method="POST" action="{% url 'edit_volunteer' 0 %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" id="editVolunteerId" name="id" />
+          <div class="mb-3">
+            <label for="editName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="editName" name="name" required />
+          </div>
+          <div class="mb-3">
+            <label for="editRole" class="form-label">Role</label>
+            <input type="text" class="form-control" id="editRole" name="role" required />
+          </div>
+          <div class="mb-3">
+            <label for="editBio" class="form-label">Bio</label>
+            <textarea class="form-control" id="editBio" name="bio"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="editEmail" name="email" />
+          </div>
+          <div class="mb-3">
+            <label for="editPhone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="editPhone" name="phone" />
+          </div>
+          <div class="mb-3">
+            <label for="editImage" class="form-label">Image</label>
+            <input type="file" class="form-control" id="editImage" name="image" />
+            <img id="currentImage" src="" alt="Current Image" class="img-thumbnail mt-2" style="display: none;" />
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Edit Volunteer Button Click
+  document.querySelectorAll('.edit-volunteer').forEach(button => {
+    button.addEventListener('click', function () {
+      const volunteerId = this.getAttribute('data-id');
+      const volunteerName = this.getAttribute('data-name');
+      const volunteerRole = this.getAttribute('data-role');
+      const volunteerBio = this.getAttribute('data-bio');
+      const volunteerEmail = this.getAttribute('data-email');
+      const volunteerPhone = this.getAttribute('data-phone');
+      const volunteerImage = this.getAttribute('data-image');
+
+      document.getElementById('editVolunteerForm').action = "{% url 'edit_volunteer' 0 %}".replace('0', volunteerId);
+      document.getElementById('editVolunteerId').value = volunteerId;
+      document.getElementById('editName').value = volunteerName;
+      document.getElementById('editRole').value = volunteerRole;
+      document.getElementById('editBio').value = volunteerBio;
+      document.getElementById('editEmail').value = volunteerEmail;
+      document.getElementById('editPhone').value = volunteerPhone;
+
+      if (volunteerImage) {
+        document.getElementById('currentImage').src = volunteerImage;
+        document.getElementById('currentImage').style.display = 'block';
+      } else {
+        document.getElementById('currentImage').style.display = 'none';
+      }
+    });
+  });
+});
+</script>
+{% endblock %}
