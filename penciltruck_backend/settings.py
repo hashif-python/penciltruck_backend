@@ -128,7 +128,8 @@ USE_TZ = True
 
 
 
-
+LOGIN_URL = 'adminlogin'
+LOGIN_REDIRECT_URL = 'admindashboard'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 STATIC_URL = 'static/'

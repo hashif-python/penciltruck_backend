@@ -1,7 +1,6 @@
-from multiprocessing import context
 import re
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from .decorators import *
 from . models import *
@@ -60,16 +59,16 @@ def edit_gallery(request):
         if form.is_valid():
             if request.POST.get('delete_image1') == 'true':
                 gallery.image1.delete(save=False)
-                gallery.image1 = None
+                gallery.image1 = None # type: ignore
             if request.POST.get('delete_image2') == 'true':
                 gallery.image2.delete(save=False)
-                gallery.image2 = None
+                gallery.image2 = None # type: ignore
             if request.POST.get('delete_image3') == 'true':
                 gallery.image3.delete(save=False)
-                gallery.image3 = None
+                gallery.image3 = None # type: ignore
             if request.POST.get('delete_image4') == 'true':
                 gallery.image4.delete(save=False)
-                gallery.image4 = None
+                gallery.image4 = None # type: ignore
 
             form.save()
             messages.success(request, 'Gallery image updated successfully!')
@@ -136,3 +135,9 @@ def edit_volunteer(request, pk):
     else:
         form = VolunteerForm(instance=volunteer)
     return render(request, 'penciltruckadmin/edit_volunteer.html', {'form': form, 'volunteer': volunteer})
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('adminlogin')
