@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lmhdqjqytslv@==^klamd!tr8ixm=jln#(#uew#(ixm72zhnz5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.penciltruck.com','*','127.0.0.1:8000']
 
