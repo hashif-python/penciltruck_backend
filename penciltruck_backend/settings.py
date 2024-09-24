@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lmhdqjqytslv@==^klamd!tr8ixm=jln#(#uew#(ixm72zhnz5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['www.penciltruck.com','*','127.0.0.1:8000']
 
@@ -60,7 +60,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-HOST_URL = 'http://127.0.0.1:8000/' 
+HOST_URL = 'https://www.penciltruck.com' 
 
 FRONTEND_DIR = BASE_DIR / "frontend"
 
