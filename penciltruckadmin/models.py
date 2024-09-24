@@ -13,8 +13,6 @@ class Banner(models.Model):
 
 class Volunteer(models.Model):
     name = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)
-    bio = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='volunteers/', blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
@@ -41,7 +39,6 @@ class VolunteerRequest(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
-    message = models.TextField()
     status = models.CharField(max_length=100,default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -55,3 +52,14 @@ class NewsletterSubscription(models.Model):
 
     def __str__(self):
         return self.email
+    
+    
+class OtpInfo(models.Model):
+    email = models.EmailField()
+    email_otp = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15)
+    phone_otp = models.CharField(max_length=15)
+    
+
+    def __str__(self):
+        return f"Volunteer Request from {self.email}"

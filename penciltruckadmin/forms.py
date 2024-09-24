@@ -12,4 +12,4 @@ class GalleryForm(forms.ModelForm):
 class VolunteerForm(forms.ModelForm):
     class Meta:
         model = Volunteer
-        fields = ['name', 'role', 'bio', 'image', 'email', 'phone']
+        fields = ['name', 'image', 'email', 'phone']

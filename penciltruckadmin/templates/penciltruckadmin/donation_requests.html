@@ -1,0 +1,155 @@
+{% extends 'penciltruckadmin/base.html' %}
+
+{% block page_title %}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admindashboard' %}">
+            <i class="bi bi-grid"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admingallery' %}">
+            <i class="bi bi-images"></i>
+            <span>Gallery</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'volunteer_requests' %}">
+            <i class="bi bi-images"></i>
+            <span>Volunteer Request</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'donation_requests' %}">
+            <i class="bi bi-gift"></i>
+            <span>Donation Requests</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'volunteers' %}">
+            <i class="bi bi-people-fill"></i>
+            <span>Volunteers</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Donation Requests</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'admindashboard' %}">Home</a></li>
+                <li class="breadcrumb-item">Donation Requests</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Donation Requests</h5>
+
+                        <!-- Table with stripped rows -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Study Material Type</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Mobile No</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Created At</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in requests %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ request.name }}</td>
+                                    <td>{{ request.study_material_type }}</td>
+                                    <td>{{ request.description }}</td>
+                                    <td>{{ request.mobile_no }}</td>
+                                    <td>{{ request.street_address }}, {{ request.city }}, {{ request.state }}, {{ request.postal_code }}, {{ request.country }}</td>
+                                    <td>{{ request.status }}</td>
+                                    <td>{{ request.created_at|date }}</td>
+                                    <td>
+                                        <select class="form-select" data-id="{{ request.pk }}" 
+                                                onchange="updateStatus(this)" 
+                                                {% if request.status == 'Collected' %} disabled {% endif %}>
+                                            <option value="Pending" {% if request.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                            <option value="Verified" {% if request.status == 'Verified' %}selected{% endif %}>Verified</option>
+                                            <option value="Rejected" {% if request.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                            <option value="Collected" {% if request.status == 'Collected' %}selected{% endif %}>Collected</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    function updateStatus(selectElement) {
+        var requestId = selectElement.getAttribute('data-id');
+        var newStatus = selectElement.value;
+
+        console.log('Request ID:', requestId, 'New Status:', newStatus);
+
+        var csrftoken = getCookie('csrftoken');  // CSRF token function
+
+        fetch(`https://www.penciltruck.com/admin/update-donation-request-status/${requestId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({status: newStatus})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                const statusCell = selectElement.closest('tr').querySelector('td:nth-child(7)');
+                statusCell.textContent = newStatus;
+                alert('Status updated successfully');
+            } else if (data.error) {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+
+    // Utility function to get CSRF token from cookie
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+{% endblock %}

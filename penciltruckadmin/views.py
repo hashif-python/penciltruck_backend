@@ -6,7 +6,9 @@ from .decorators import *
 from . models import *
 from .forms import GalleryForm, VolunteerForm
 from django.urls import reverse  # Import reverse here
-
+from penciltruckapp.models import StudyMaterialDonation
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 
@@ -90,7 +92,7 @@ def delete_gallery(request):
 
 
 def volunteer_requests(request):
-    requests = VolunteerRequest.objects.all()
+    requests = VolunteerRequest.objects.filter(status='Pending')
     return render(request, 'penciltruckadmin/volunteer_requests.html', {'requests': requests})
 
 def update_volunteer_request_status(request, pk):
@@ -101,10 +103,8 @@ def update_volunteer_request_status(request, pk):
         # Insert details into Volunteer model
         Volunteer.objects.create(
             name=volunteer_request.name,
-            role='Volunteer',  # Assuming role is fixed as 'Volunteer', change if needed
             email=volunteer_request.email,
             phone=volunteer_request.phone,
-            bio=volunteer_request.message,  # Assuming the message field can be used as bio
         )
         volunteer_request.status = status
         volunteer_request.save()
@@ -137,7 +137,38 @@ def edit_volunteer(request, pk):
     return render(request, 'penciltruckadmin/edit_volunteer.html', {'form': form, 'volunteer': volunteer})
 
 
+def donation_requests(request):
+    requests = StudyMaterialDonation.objects.all()
+    return render(request, 'penciltruckadmin/donation_requests.html', {'requests': requests})
 
+def update_donation_request(request, pk):
+    donation_request = get_object_or_404(StudyMaterialDonation, pk=pk)
+
+    if request.method == 'POST':
+        try:
+            # Parse the JSON data
+            data = json.loads(request.body)
+            new_status = data.get('status')
+
+            if new_status not in ['Pending', 'Verified', 'Rejected', 'Collected']:
+                return JsonResponse({'error': 'Invalid status value'}, status=400)
+
+            donation_request.status = new_status
+            donation_request.save()
+
+            return JsonResponse({
+                'message': 'Donation request updated successfully',
+                'donation_request_id': donation_request.pk,
+                'new_status': donation_request.status
+            }, status=200)
+        
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+    
+    
+    
 def logout_view(request):
     logout(request)
     return redirect('adminlogin')

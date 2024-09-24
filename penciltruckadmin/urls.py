@@ -16,6 +16,10 @@ urlpatterns = [
     path('update-volunteer-request-status/<int:pk>/', views.update_volunteer_request_status, name='update_volunteer_request_status'),
     path('volunteers/', views.volunteers, name='volunteers'),
     path('edit-volunteer/<int:pk>/', views.edit_volunteer, name='edit_volunteer'),
+    path('donation-requests/', views.donation_requests, name='donation_requests'),
+    path('donations/<int:pk>/status/', views.donation_requests, name='update_donation_request_status'),
+    path('update-donation-request-status/<int:pk>/', views.update_donation_request, name='update_donation_request_status')
+
     
     
 ]

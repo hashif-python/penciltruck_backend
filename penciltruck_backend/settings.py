@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-lmhdqjqytslv@==^klamd!tr8ixm=jln#(#uew#(ixm72zhnz5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.penciltruck.com','*']
+ALLOWED_HOSTS = ['www.penciltruck.com','*','127.0.0.1:8000']
 
 
 # Application definition
@@ -142,7 +142,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # or your email provider's SMTP server
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hashifmuhammed28@gmail.com'  # Your email
+EMAIL_HOST_PASSWORD = 'rlde wwit qdcc nwll'  # Your email password
+DEFAULT_FROM_EMAIL = 'Pencil Truck <hashifmuhammed28@gmail.com>'  # Customize this as per your branding
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
