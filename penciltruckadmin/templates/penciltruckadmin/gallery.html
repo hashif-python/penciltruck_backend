@@ -190,56 +190,48 @@
 
           <!-- Image 1 -->
           <div class="mb-3">
-            
-            
             <img id="currentImage1" src="" alt="Current Image 1" class="img-thumbnail mt-2" style="display: none;" />
             <div class="d-flex align-items-center">
-              <input  style="display: none;"  type="file" class="form-control" id="editImage1" name="image1" />
-              <button style="width:100%;display: none;" type="button" id="img1button" class="btn btn-primary" data-input-id="editImage1">Change</button>
-              <button id="deleteimageButton1" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage1" data-image-id="currentImage1">Delete</button>      
+              <input style="display: none;" type="file" class="form-control" id="editImage1" name="image1" />
+              <button style="width:100%;" type="button" id="img1button" class="btn btn-primary change-image" data-input-id="editImage1" style="display:none;">Change</button>
+              <button id="deleteimageButton1" type="button" style="width:100%;display:none" class="btn btn-danger delete-image" data-delete-id="deleteImage1" data-image-id="currentImage1">Delete</button>
               <input style="display: none;" id="deleteImage1" name="delete_image1" value="false" />
             </div>
           </div>
 
           <!-- Image 2 -->
           <div class="mb-3">
-           
-            
             <img id="currentImage2" src="" alt="Current Image 2" class="img-thumbnail mt-2" style="display: none;" />
             <div class="d-flex align-items-center">
               <input style="display: none;" type="file" class="form-control" id="editImage2" name="image2" />
-              <button style="width:100%;display: none;" type="button" id="img2button" class="btn btn-primary" data-input-id="editImage2">Change</button>
-              <button id="deleteimageButton2" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage2" data-image-id="currentImage3">Delete</button>
+              <button style="width:100%;" type="button" id="img2button" class="btn btn-primary change-image" data-input-id="editImage2" style="display:none;">Change</button>
+              <button id="deleteimageButton2" type="button" style="width:100%;display:none" class="btn btn-danger delete-image" data-delete-id="deleteImage2" data-image-id="currentImage2">Delete</button>
               <input style="display: none;" id="deleteImage2" name="delete_image2" value="false" />
             </div>
           </div>
 
           <!-- Image 3 -->
           <div class="mb-3">
-           
-            
             <img id="currentImage3" src="" alt="Current Image 3" class="img-thumbnail mt-2" style="display: none;" />
             <div class="d-flex align-items-center">
               <input style="display: none;" type="file" class="form-control" id="editImage3" name="image3" />
-              <button style="width:100%;display: none;" type="button" id="img3button" class="btn btn-primary" data-input-id="editImage3">Change</button>
-              <button id="deleteimageButton3" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage3" data-image-id="currentImage3">Delete</button>
+              <button style="width:100%;" type="button" id="img3button" class="btn btn-primary change-image" data-input-id="editImage3" style="display:none;">Change</button>
+              <button id="deleteimageButton3" type="button" style="width:100%;display:none" class="btn btn-danger delete-image" data-delete-id="deleteImage3" data-image-id="currentImage3">Delete</button>
               <input style="display: none;" id="deleteImage3" name="delete_image3" value="false" />
             </div>
           </div>
 
           <!-- Image 4 -->
           <div class="mb-3">
-           
-           
             <img id="currentImage4" src="" alt="Current Image 4" class="img-thumbnail mt-2" style="display: none;" />
             <div class="d-flex align-items-center">
               <input style="display: none;" type="file" class="form-control" id="editImage4" name="image4" />
-              <button style="width:100%;display: none;" type="button" class="btn btn-primary" id="img4button" data-input-id="editImage4">Change</button>
-              <button id="deleteimageButton4" type="button" style="width:100%;display:none" class="btn btn-danger  delete-image" data-delete-id="deleteImage4" data-image-id="currentImage4">Delete</button>
+              <button style="width:100%;" type="button" id="img4button" class="btn btn-primary change-image" data-input-id="editImage4" style="display:none;">Change</button>
+              <button id="deleteimageButton4" type="button" style="width:100%;display:none" class="btn btn-danger delete-image" data-delete-id="deleteImage4" data-image-id="currentImage4">Delete</button>
               <input style="display: none;" id="deleteImage4" name="delete_image4" value="false" />
-           
             </div>
           </div>
+
 
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -275,104 +267,108 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const editGalleryModal = document.getElementById('editGalleryModal');
-  const editGalleryForm = document.getElementById('editGalleryForm');
-  const deleteModal = document.getElementById('deleteModal');
-  const deleteGalleryForm = document.getElementById('deleteGalleryForm');
-
-  // Edit Gallery Button Click
-  document.querySelectorAll('.edit-gallery').forEach(button => {
-    button.addEventListener('click', function () {
-      const galleryId = this.getAttribute('data-id');
-      const galleryTitle = this.getAttribute('data-title');
-      const galleryStatus = this.getAttribute('data-status');
-      const galleryDescription = this.getAttribute('data-description');
-      const galleryImage1 = this.getAttribute('data-image1');
-      const galleryImage2 = this.getAttribute('data-image2');
-      const galleryImage3 = this.getAttribute('data-image3');
-      const galleryImage4 = this.getAttribute('data-image4');
-
-      document.getElementById('editGalleryId').value = galleryId;
-      document.getElementById('editTitle').value = galleryTitle;
-      document.getElementById('editStatus').value = galleryStatus;
-      document.getElementById('editDescription').value = galleryDescription;
-
-      // Set existing image URLs as placeholders or preview images
-      if (galleryImage1) {
-        document.getElementById('currentImage1').src = galleryImage1;
-        document.getElementById('currentImage1').style.display = 'block';
-        document.getElementById('img1button').style.display = 'block';
-        document.getElementById('deleteimageButton1').style.display = 'block';
-      } else {
-        document.getElementById('currentImage1').style.display = 'none';
-        document.getElementById('img1button').style.display = 'none';
-        document.getElementById('deleteimageButton1').style.display = 'none';
-
-      }
-
-      if (galleryImage2) {
-        document.getElementById('currentImage2').src = galleryImage2;
-        document.getElementById('currentImage2').style.display = 'block';
-        document.getElementById('img2button').style.display = 'block';
-        document.getElementById('deleteimageButton2').style.display = 'block';
-      } else {
-        document.getElementById('currentImage2').style.display = 'none';
-        document.getElementById('img2button').style.display = 'none';
-        document.getElementById('editImage2').style.display = 'block';
-        document.getElementById('deleteimageButton2').style.display = 'none';
-      }
-
-      if (galleryImage3) {
-        document.getElementById('currentImage3').src = galleryImage3;
-        document.getElementById('currentImage3').style.display = 'block';
-        document.getElementById('img3button').style.display = 'block';
-        document.getElementById('deleteimageButton3').style.display = 'block';
-      } else {
-        document.getElementById('currentImage3').style.display = 'none';
-        document.getElementById('img3button').style.display = 'none';
-        document.getElementById('editImage3').style.display = 'block';
-        document.getElementById('deleteimageButton3').style.display = 'none';
-      }
-
-      if (galleryImage4) {
-        document.getElementById('currentImage4').src = galleryImage4;
-        document.getElementById('currentImage4').style.display = 'block';
-        document.getElementById('img4button').style.display = 'block';
-        document.getElementById('deleteimageButton4').style.display = 'block';
-      } else {
-        document.getElementById('currentImage4').style.display = 'none';
-        document.getElementById('img4button').style.display = 'none';
-        document.getElementById('editImage4').style.display = 'block';
-        document.getElementById('deleteimageButton4').style.display = 'none';
-      }
+  document.addEventListener('DOMContentLoaded', function () {
+    const editGalleryModal = document.getElementById('editGalleryModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteGalleryForm = document.getElementById('deleteGalleryForm');
+  
+    // Edit Gallery Button Click
+    document.querySelectorAll('.edit-gallery').forEach(button => {
+      button.addEventListener('click', function () {
+        const galleryId = this.getAttribute('data-id');
+        const galleryTitle = this.getAttribute('data-title');
+        const galleryStatus = this.getAttribute('data-status');
+        const galleryDescription = this.getAttribute('data-description');
+        const galleryImage1 = this.getAttribute('data-image1');
+        const galleryImage2 = this.getAttribute('data-image2');
+        const galleryImage3 = this.getAttribute('data-image3');
+        const galleryImage4 = this.getAttribute('data-image4');
+  
+        document.getElementById('editGalleryId').value = galleryId;
+        document.getElementById('editTitle').value = galleryTitle;
+        document.getElementById('editStatus').value = galleryStatus;
+        document.getElementById('editDescription').value = galleryDescription;
+  
+        // Handle Image 1
+        if (galleryImage1) {
+          document.getElementById('currentImage1').src = galleryImage1;
+          document.getElementById('currentImage1').style.display = 'block';
+          document.getElementById('img1button').style.display = 'block';
+          document.getElementById('deleteimageButton1').style.display = 'block';
+          document.getElementById('editImage1').style.display = 'none'; // Hide file input initially
+        } else {
+          document.getElementById('currentImage1').style.display = 'none';
+          document.getElementById('img1button').style.display = 'none';
+          document.getElementById('deleteimageButton1').style.display = 'none';
+          document.getElementById('editImage1').style.display = 'block'; // Show file input for uploading
+        }
+  
+        // Handle Image 2
+        if (galleryImage2) {
+          document.getElementById('currentImage2').src = galleryImage2;
+          document.getElementById('currentImage2').style.display = 'block';
+          document.getElementById('img2button').style.display = 'block';
+          document.getElementById('deleteimageButton2').style.display = 'block';
+          document.getElementById('editImage2').style.display = 'none'; // Hide file input initially
+        } else {
+          document.getElementById('currentImage2').style.display = 'none';
+          document.getElementById('img2button').style.display = 'none';
+          document.getElementById('deleteimageButton2').style.display = 'none';
+          document.getElementById('editImage2').style.display = 'block'; // Show file input for uploading
+        }
+  
+        // Handle Image 3
+        if (galleryImage3) {
+          document.getElementById('currentImage3').src = galleryImage3;
+          document.getElementById('currentImage3').style.display = 'block';
+          document.getElementById('img3button').style.display = 'block';
+          document.getElementById('deleteimageButton3').style.display = 'block';
+          document.getElementById('editImage3').style.display = 'none'; // Hide file input initially
+        } else {
+          document.getElementById('currentImage3').style.display = 'none';
+          document.getElementById('img3button').style.display = 'none';
+          document.getElementById('deleteimageButton3').style.display = 'none';
+          document.getElementById('editImage3').style.display = 'block'; // Show file input for uploading
+        }
+  
+        // Handle Image 4
+        if (galleryImage4) {
+          document.getElementById('currentImage4').src = galleryImage4;
+          document.getElementById('currentImage4').style.display = 'block';
+          document.getElementById('img4button').style.display = 'block';
+          document.getElementById('deleteimageButton4').style.display = 'block';
+          document.getElementById('editImage4').style.display = 'none'; // Hide file input initially
+        } else {
+          document.getElementById('currentImage4').style.display = 'none';
+          document.getElementById('img4button').style.display = 'none';
+          document.getElementById('deleteimageButton4').style.display = 'none';
+          document.getElementById('editImage4').style.display = 'block'; // Show file input for uploading
+        }
+      });
+    });
+  
+    // Delete Image Button Click
+    document.querySelectorAll('.delete-image').forEach(button => {
+      button.addEventListener('click', function () {
+        const deleteId = this.getAttribute('data-delete-id');
+        const imageId = this.getAttribute('data-image-id');
+        document.getElementById(deleteId).value = 'true';  // Mark image for deletion
+        document.getElementById(imageId).style.display = 'none'; // Hide image
+        document.getElementById(this.getAttribute('data-input-id')).style.display = 'block'; // Show file input to upload new image
+        this.style.display = 'none'; // Hide the delete button
+      });
+    });
+  
+    // Change Image Button Click
+    document.querySelectorAll('button[id^=img]').forEach(button => {
+      button.addEventListener('click', function () {
+        const inputId = this.getAttribute('data-input-id');
+        document.getElementById(inputId).click();
+      });
     });
   });
+  
 
-  // Change Image Button Click
-  document.querySelectorAll('.change-image').forEach(button => {
-    button.addEventListener('click', function () {
-      const inputId = this.getAttribute('data-input-id');
-      document.getElementById(inputId).click();
-    });
-  });
-
-  // Delete Gallery Button Click
-  deleteModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    const galleryId = button.getAttribute('data-id');
-    document.getElementById('deleteGalleryId').value = galleryId;
-  });
-});
-
-document.querySelectorAll('.delete-image').forEach(button => {
-  button.addEventListener('click', function () {
-    const deleteId = this.getAttribute('data-delete-id');
-    const imageId = this.getAttribute('data-image-id');
-    document.getElementById(deleteId).value = 'true';
-    document.getElementById(imageId).style.display = 'none';
-  });
-});
 </script>
 
 {% endblock %}

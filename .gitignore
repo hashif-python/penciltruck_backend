@@ -1,0 +1,55 @@
+# Django specific files
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+*.sqlite3
+
+
+# If you're using Django migrations
+*/migrations/*
+
+# Ignore secrets and environment files
+.env
+*.env
+
+# Python virtual environment
+venv/
+env/
+ENV/
+
+# Ignore JetBrains IDEs (e.g., PyCharm) settings and project files
+.idea/
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore MacOS specific files
+.DS_Store
+
+# Ignore Windows specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore Python compiled files
+*.py[cod]
+*$py.class
+
+# Ignore cache directories
+.cache/
+.pytest_cache/
+django_cache/
+
+# Ignore coverage reports
+htmlcov/
+.tox/
+.coverage
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
