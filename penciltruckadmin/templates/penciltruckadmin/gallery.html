@@ -16,18 +16,19 @@
 </li>
 
 <li class="nav-item">
-  <a class="nav-link collapsed"  href="{% url  'volunteer_requests' %}">
+  <a class="nav-link collapsed" href="{% url 'volunteer_requests' %}">
     <i class="bi bi-images"></i><span>Volunteer Request</span>
   </a>
 </li>
+
 <li class="nav-item">
   <a class="nav-link collapsed" href="{% url 'donation_requests' %}">
-      <i class="bi bi-gift"></i>
-      <span>Donation Requests</span>
+    <i class="bi bi-gift"></i><span>Donation Requests</span>
   </a>
 </li>
+
 <li class="nav-item">
-  <a class="nav-link collapsed"  href="{% url 'volunteers' %}">
+  <a class="nav-link collapsed" href="{% url 'volunteers' %}">
     <i class="bi bi-people-fill"></i><span>Volunteers</span>
   </a>
 </li>
@@ -39,9 +40,7 @@
     <h1>Gallery</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="{% url 'admindashboard' %}">Home</a>
-        </li>
+        <li class="breadcrumb-item"><a href="{% url 'admindashboard' %}">Home</a></li>
         <li class="breadcrumb-item">Gallery</li>
       </ol>
     </nav>
@@ -78,7 +77,8 @@
                   <td>{{ gallery.active }}</td>
                   <td>
                     <button class="btn btn-warning btn-sm edit-gallery" data-bs-toggle="modal" data-bs-target="#editGalleryModal"
-                            data-id="{{ gallery.id }}" data-title="{{ gallery.title }}" data-status="{{ gallery.active }}" data-description="{{ gallery.description }}"
+                            data-id="{{ gallery.id }}" data-title="{{ gallery.title }}" data-status="{{ gallery.active }}" 
+                            data-description="{{ gallery.description }}"
                             {% if gallery.image1 %} data-image1="{{ gallery.image1.url }}" {% endif %}
                             {% if gallery.image2 %} data-image2="{{ gallery.image2.url }}" {% endif %}
                             {% if gallery.image3 %} data-image3="{{ gallery.image3.url }}" {% endif %}
@@ -183,10 +183,6 @@
             <label for="editDescription" class="form-label">Description</label>
             <input type="text" class="form-control" id="editDescription" name="description" required />
           </div>
-          <div style="display:none" class="mb-3">
-            <label for="editStatus" class="form-label">Status</label>
-            <input type="text" class="form-control" id="editStatus" name="status" required />
-          </div>
 
           <!-- Image 1 -->
           <div class="mb-3">
@@ -232,7 +228,6 @@
             </div>
           </div>
 
-
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Save Changes</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -268,11 +263,17 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const editGalleryModal = document.getElementById('editGalleryModal');
     const deleteModal = document.getElementById('deleteModal');
-    const deleteGalleryForm = document.getElementById('deleteGalleryForm');
   
-    // Edit Gallery Button Click
+    // Set the gallery ID in the delete form when the Delete button is clicked
+    document.querySelectorAll('a[data-bs-target="#deleteModal"]').forEach(button => {
+      button.addEventListener('click', function () {
+        const galleryId = this.getAttribute('data-id');
+        document.getElementById('deleteGalleryId').value = galleryId;  // Set the gallery ID
+      });
+    });
+
+    // Set up the edit modal for handling images
     document.querySelectorAll('.edit-gallery').forEach(button => {
       button.addEventListener('click', function () {
         const galleryId = this.getAttribute('data-id');
@@ -367,8 +368,6 @@
       });
     });
   });
-  
-
 </script>
 
 {% endblock %}

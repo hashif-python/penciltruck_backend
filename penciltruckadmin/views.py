@@ -9,6 +9,7 @@ from django.urls import reverse  # Import reverse here
 from penciltruckapp.models import StudyMaterialDonation
 from django.http import JsonResponse
 import json
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -80,13 +81,12 @@ def edit_gallery(request):
     return render(request, 'penciltruckadmin/gallery.html', {'form': form, 'edit': True, 'gallery': gallery})
 
 def delete_gallery(request):
-    id=request.POST.get('id')
-    gallery = get_object_or_404(Gallery, id=id)
-    if request.method == "POST":
+    if request.method == 'POST':
+        gallery_id = request.POST.get('id')
+        gallery = get_object_or_404(Gallery, id=gallery_id)
         gallery.delete()
-        messages.success(request, 'Gallery image deleted successfully!')
-        return redirect(reverse('admingallery'))
-    return render(request, 'penciltruckadmin/gallery.html', {'gallery': gallery})
+        return redirect('admingallery')  # Redirect to gallery list after deletion
+    return HttpResponse('Invalid request method', status=405)
 
 
 
