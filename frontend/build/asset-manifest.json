@@ -1,20 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.811d37d2.chunk.css",
-    "main.js": "/static/js/main.9fc61c3a.chunk.js",
-    "main.js.map": "/static/js/main.9fc61c3a.chunk.js.map",
+    "main.css": "/static/css/main.c88f70e7.chunk.css",
+    "main.js": "/static/js/main.632d5e5e.chunk.js",
+    "main.js.map": "/static/js/main.632d5e5e.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.a503e324.js",
     "runtime-main.js.map": "/static/js/runtime-main.a503e324.js.map",
     "static/css/2.b88fe1f1.chunk.css": "/static/css/2.b88fe1f1.chunk.css",
-    "static/js/2.36191317.chunk.js": "/static/js/2.36191317.chunk.js",
-    "static/js/2.36191317.chunk.js.map": "/static/js/2.36191317.chunk.js.map",
+    "static/js/2.57d81dbf.chunk.js": "/static/js/2.57d81dbf.chunk.js",
+    "static/js/2.57d81dbf.chunk.js.map": "/static/js/2.57d81dbf.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.c590c16b14463fb3c4ae48a3e0dbc4f8.js": "/precache-manifest.c590c16b14463fb3c4ae48a3e0dbc4f8.js",
+    "precache-manifest.dced5f540cc17938e0f3cf58d098237c.js": "/precache-manifest.dced5f540cc17938e0f3cf58d098237c.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.b88fe1f1.chunk.css.map": "/static/css/2.b88fe1f1.chunk.css.map",
-    "static/css/main.811d37d2.chunk.css.map": "/static/css/main.811d37d2.chunk.css.map",
-    "static/js/2.36191317.chunk.js.LICENSE.txt": "/static/js/2.36191317.chunk.js.LICENSE.txt",
+    "static/css/main.c88f70e7.chunk.css.map": "/static/css/main.c88f70e7.chunk.css.map",
+    "static/js/2.57d81dbf.chunk.js.LICENSE.txt": "/static/js/2.57d81dbf.chunk.js.LICENSE.txt",
     "static/media/about.webp": "/static/media/about.3a181b77.webp",
+    "static/media/gal1.jpeg": "/static/media/gal1.fd39f934.jpeg",
+    "static/media/gal2.jpeg": "/static/media/gal2.244afd47.jpeg",
+    "static/media/gal3.jpeg": "/static/media/gal3.1edf8564.jpeg",
+    "static/media/gal4.jpeg": "/static/media/gal4.67cc285e.jpeg",
     "static/media/DonatePage.css": "/static/media/gallerybg.641d00d1.JPG",
     "static/media/HomeSection.css": "/static/media/hero.41ee17f1.JPG",
     "static/media/logo.png": "/static/media/logo.0a056e2e.png",
@@ -28,8 +32,8 @@
   "entrypoints": [
     "static/js/runtime-main.a503e324.js",
     "static/css/2.b88fe1f1.chunk.css",
-    "static/js/2.36191317.chunk.js",
-    "static/css/main.811d37d2.chunk.css",
-    "static/js/main.9fc61c3a.chunk.js"
+    "static/js/2.57d81dbf.chunk.js",
+    "static/css/main.c88f70e7.chunk.css",
+    "static/js/main.632d5e5e.chunk.js"
   ]
 }
